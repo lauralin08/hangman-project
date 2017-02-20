@@ -13,25 +13,26 @@ var PORT = process.env.PORT || 3000;
 // Generate static path from current directory and public folder
 var staticPath = path.join(__dirname, '/public');
 
+var words;
 function getRandomWord() {
     var randomNumber = Math.floor(Math.random() * words.length);
     return words[randomNumber];
 }
 
-var words;
 app.get('/words', function (req, res) {
     if (!words) {
         axios.get('http://linkedin-reach.hagbpyjegb.us-west-2.elasticbeanstalk.com/words')
         .then(function(response) {
             words = response.data.split('\n');
             res.send(getRandomWord());
-            console.log(words);
+            console.log(getRandomWord());
         })
         .catch(function(error) {
             console.log(error);
         });
     } else {
         res.send(getRandomWord());
+        console.log(getRandomWord());
     }  
 });
 
