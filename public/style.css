@@ -1,5 +1,47 @@
-div h3 {
+html {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+.header {
     margin-top: 40px;
     margin-bottom: 20px;
     font-family: 'Times New Roman', Times, serif;
 }
+
+.vertical-align {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 380px;
+    margin-top: 20px;
+}
+
+.hangman-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    flex-grow: 3;
+}
+
+.left-column {
+    flex: 1;
+}
+
+.form-inline {
+    margin-bottom: 20px;
+    margin-top: 10px;
+    flex-grow: 1;
+}
+
+.guess-submit {
+    max-width: 100%;
+}
+
+#inputGuess {
+    display: inline-block;
+    width: auto;
+    max-width: 100%;
+}
+

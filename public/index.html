@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html>
-    <div class="container-fluid">
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -13,36 +12,36 @@
         <title>Let's play Hangman!</title>
     </head>
     <body>
-        <div>
-            <h3 class="text-center">Can you save the hanging man before it's too late?</h3>
-        </div>
-        <div type="button" class="btn btn-success btn-block btn-lg text-center play-now">Play Now!</div>
-        <div class="row">
-            <div class="col-xs-6 center-block text-center">
-                <div class="well">
-                    <img class="img-responsive center-block" alt="Hangman Diagram"/>
-                </div>
-                <div class="well user-progress">
-                </div>
+        <div class="container-fluid">
+            <div class="header text-center">
+                <h3>Can you save the hanging man before it's too late?</h3>
             </div>
-            <div class="col-xs-6 center-block text-center">
-                <div class="well lives-left">
+            <div type="button" class="btn btn-success btn-block btn-lg text-center play-now">Play Now!</div>
+            <div class="row">
+                <div class="col-xs-6 text-center vertical-align">
+                    <div class="well lives-left left-column">
+                    </div>
+                    <div class="well bad-guesses left-column">
+                    </div>
+                    <div class="well user-progress left-column">
+                    </div>
                 </div>
-                <div class="well bad-guesses">
-                </div>
-                <form action="javascript:void(0);" class="form-inline">
-                    <div class="form-group">
+                <div class="col-xs-6 text-center vertical-align">
+                    <div class="well hangman-container">
+                        <img class="img-responsive center-block hangman-image" src="Hangman6.png" alt="Hangman Diagram"/>
+                    </div>
+                    <form action="javascript:void(0);" class="form-inline">
                         <label class="sr-only" for="inputGuess">User guess</label>
                         <input type="text" class="form-control"
-                            id="inputGuess" placeholder="Enter your guess here.">
+                            id="inputGuess" placeholder="Enter a letter.">
                         <input type="button" class="btn btn-primary guess-submit" value="Guess!" required>
-                    </div>
-                </form>
+                    </form>
+                </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="col-xs-12 center-block text-center">
-                <div class="well guess-result">
+            <div class="row">
+                <div class="col-xs-12 text-center">
+                    <div class="well guess-result">
+                    </div>
                 </div>
             </div>
         </div>
@@ -52,5 +51,4 @@
             crossorigin="anonymous"></script>
         <script src="main.js"></script>
     </body>
-    </div>
 </html>

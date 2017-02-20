@@ -42,6 +42,7 @@ $(document).ready(function() {
     var $guessResult = $('.guess-result');
     var $guessSubmit = $('.guess-submit');
     var $guess = $('.form-control');
+    var $hangman = $('.hangman-container');
 
     function showProgress() { 
         $userProgress.empty();
@@ -58,11 +59,11 @@ $(document).ready(function() {
     function showBadGuesses() {
         $badGuessCache.empty();
         if (badGuessCache.length) {
-            var $badGuesses = $('<div class="bad">Incorrectly guessed: ' + badGuessCache + '<div>');
+            var $badGuesses = $('<div class="text-danger">Incorrectly guessed: ' + badGuessCache + '<div>');
             $badGuessCache.append($badGuesses);
             console.log('Incorrectly guessed: ' + badGuessCache);
         } else {
-            var $none = $('<div class="good">No wrong guesses so far!</div>');
+            var $none = $('<div class="text-success">No wrong guesses so far!</div>');
             $badGuessCache.append($none);
             console.log('No wrong guesses so far!');
         }
@@ -75,6 +76,40 @@ $(document).ready(function() {
         console.log('You have ' + totalGuesses + ' guesses left. Guess a letter!');
     }
 
+    function showHangman() {
+        $hangman.empty();
+        switch(totalGuesses) {
+            case 5:
+                var $hangman5 = $('<img class="img-responsive center-block hangman-image" src="Hangman5.png" alt="Hangman Diagram"/>');
+                $hangman.append($hangman5);
+                break;
+            case 4:
+                var $hangman4 = $('<img class="img-responsive center-block hangman-image" src="Hangman4.png" alt="Hangman Diagram"/>');
+                $hangman.append($hangman4);
+                break;
+            case 3:
+                var $hangman3 = $('<img class="img-responsive center-block hangman-image" src="Hangman3.png" alt="Hangman Diagram"/>');
+                $hangman.append($hangman3);
+                break;
+            case 2:
+                var $hangman2 = $('<img class="img-responsive center-block hangman-image" src="Hangman2.png" alt="Hangman Diagram"/>');
+                $hangman.append($hangman2);
+                break;
+            case 1:
+                var $hangman1 = $('<img class="img-responsive center-block hangman-image" src="Hangman1.png" alt="Hangman Diagram"/>');
+                $hangman.append($hangman1);
+                break;
+            case 0:
+                var $hangman0 = $('<img class="img-responsive center-block hangman-image" src="Hangman0.png" alt="Hangman Diagram"/>');
+                $hangman.append($hangman0);
+                break;
+            default:
+                var $hangman6 = $('<img class="img-responsive center-block hangman-image" src="Hangman6.png" alt="Hangman Diagram"/>');
+                $hangman.append($hangman6);
+                break;
+        }
+    }
+
     function startGame() {
         $livesLeft.empty();
         var $start = $('<div>You have 6 guesses. Guess the following word: ' + userProgress + '<div>');
@@ -84,11 +119,11 @@ $(document).ready(function() {
 
     function guessAgain() {
         $guessResult.empty();
-        var $invalid = $('<div class="bad">Invalid guess</div>');
+        var $invalid = $('<div class="text-danger">Invalid guess</div>');
         $guessResult.append($invalid);
         
         $livesLeft.empty();
-        var $guessAgain = $('<div class="bad">Please guess again. Make sure it\'s an English letter that you haven\'t guessed yet!</div>');
+        var $guessAgain = $('<div class="text-danger">Please guess again. Make sure it\'s an English letter that you haven\'t guessed yet!</div>');
         $livesLeft.append($guessAgain);
         console.log("Invalid guess. Please guess again. Make sure it's an English letter that you haven't guessed yet!");
     }
@@ -96,11 +131,11 @@ $(document).ready(function() {
     function showResult() {
         $guessResult.empty();
         if (match) {
-            var $correct = $('<div class="good">Good job!</div>');
+            var $correct = $('<div class="text-success">Good job!</div>');
             $guessResult.append($correct);
             console.log('Good job!');
         } else if (!match) {
-            var $incorrect = $('<div class="bad">Ouch... the rope tightened.</div>');
+            var $incorrect = $('<div class="text-danger">Ouch... the rope tightened.</div>');
             $guessResult.append($incorrect);
             console.log('Ouch... the rope tightened.');
         }
@@ -108,14 +143,14 @@ $(document).ready(function() {
 
     function userWins() {
         $guessResult.empty();
-        var $winner = $('<div class="winner good">You guessed the word and saved the hanging man! Congratulations&mdash;you won! Click "Play Now" to play again.</div>');
+        var $winner = $('<div class="winner text-success">You guessed the word and saved the hanging man! Congratulations&mdash;you won! Click "Play Now" to play again.</div>');
         $guessResult.append($winner);
         console.log('You guessed the word and saved the hanging man! Congratulations--you won! Click "Play Now" to play again.');
     }
 
     function userLoses() {
         $guessResult.empty();
-        var $loser = $('<div class="loser bad">Sorry, you lost! The word was "' + secretWord + '". Too bad... Click "Play Now" to try again.</div>');
+        var $loser = $('<div class="loser text-danger">Sorry, you lost! The word was "' + secretWord + '". Too bad... Click "Play Now" to try again.</div>');
         $guessResult.append($loser);
         console.log('Sorry, you lost! The word was ' + secretWord + '. Too bad... Click "Play Now" to try again.');
     }
@@ -138,7 +173,6 @@ $(document).ready(function() {
 
     var $playNow = $('.play-now');
     $playNow.on('click', function(event) {
-        
         getSecretWord();
         badGuessCache.length = 0;
         for (var key in guessCache) {
@@ -169,6 +203,7 @@ $(document).ready(function() {
                 badGuessCache.push(userGuess);
                 totalGuesses--;
             }
+            showHangman();
             showProgress(); 
             showResult();
             showLivesLeft();
