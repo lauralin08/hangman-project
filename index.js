@@ -21,7 +21,11 @@ function getRandomWord() {
 
 app.get('/words', function (req, res) {
     if (!words) {
-        axios.get('http://linkedin-reach.hagbpyjegb.us-west-2.elasticbeanstalk.com/words')
+        axios.get('http://linkedin-reach.hagbpyjegb.us-west-2.elasticbeanstalk.com/words', {
+            params: {
+                difficulty: 5 // Restricted words to average difficulty, add variable later
+            }
+        })
         .then(function(response) {
             words = response.data.split('\n');
             res.send(getRandomWord());

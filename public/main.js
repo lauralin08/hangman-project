@@ -138,6 +138,7 @@ $(document).ready(function() {
 
     var $playNow = $('.play-now');
     $playNow.on('click', function(event) {
+        
         getSecretWord();
         badGuessCache.length = 0;
         for (var key in guessCache) {
