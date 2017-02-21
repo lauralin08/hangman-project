@@ -219,6 +219,8 @@ $(document).ready(function() {
                 }
             } else if (userGuess.length > 1) {
                 checkWord();
+            } else if (userGuess.length === 0) {
+                return guessAgain();
             }
             guessCache[userGuess] = true;  
             if (!match) {
@@ -241,29 +243,29 @@ $(document).ready(function() {
     }
 
     function checkLetter() {
-            if (guessCache[userGuess] || !LETTERS[userGuess]) {
-                return false;
-            }   
-            for (var i = 0; i < secretWord.length; i++) {
-                if (userGuess === secretWord[i]) {
-                    match = true;
-                    userProgress[i] = userGuess;
-                }
+        if (guessCache[userGuess] || !LETTERS[userGuess]) {
+            return false;
+        }   
+        for (var i = 0; i < secretWord.length; i++) {
+            if (userGuess === secretWord[i]) {
+                match = true;
+                userProgress[i] = userGuess;
             }
-            return true;
+        }
+        return true;
     }
 
     function checkWord() {
-            if (guessCache[userGuess]) {
-                return false;
-            } 
-            if (secretWord === userGuess) {
-                match = true;
-                for (var i = 0; i < userGuess.length; i++) {
-                    userProgress[i] = userGuess[i];
-                }
+        if (guessCache[userGuess]) {
+            return false;
+        } 
+        if (secretWord === userGuess) {
+            match = true;
+            for (var i = 0; i < userGuess.length; i++) {
+                userProgress[i] = userGuess[i];
             }
-            return true;
+        }
+        return true;
     }
     
     function setUserGuess() {
