@@ -168,23 +168,6 @@ $(document).ready(function() {
         $guessResult.append($loser);
         console.log('Sorry, you lost! The word was ' + secretWord + '. Too bad... Click "Play Again" to try again.');
     }
-    
-    function getSecretWord() {
-        $.ajax('/words' , {
-            success: function(word) {
-                secretWord = word.toUpperCase();
-                if (wordCache[secretWord]) {
-                    getSecretWord();
-                } 
-                wordCache[secretWord] = true;
-                for (var i = 0; i < secretWord.length; i++) {
-                    userProgress[i] = '__';
-                }
-                $('#large').html('Play Again!');
-                startGame();
-            }
-        });
-    }
 
     var $playNow = $('.play-now');
     $playNow.on('click', function(event) {
@@ -194,11 +177,36 @@ $(document).ready(function() {
             delete guessCache[key];
         }
         totalGuesses = 6;
+        guessed = false;
         $guessResult.empty();
         $badGuessCache.empty();
         $userProgress.empty();
         getSecretWord();
     });
+
+    function getSecretWord() {
+        var $difficulty = $('.difficulty');
+        var difficulty;
+        difficulty = $difficulty.val();
+        console.log('Difficulty level: ' + difficulty);
+        $.ajax('/words' , {
+            data: {
+                difficulty: difficulty
+            },
+            success: function(word) {
+                secretWord = word.toUpperCase();
+                if (wordCache[secretWord]) {
+                    getSecretWord();
+                } 
+                wordCache[secretWord] = true;
+                for (var i = 0; i < secretWord.length; i++) {
+                    userProgress[i] = '__';
+                }
+                $('#playNow').html('Play Again!');
+                startGame();
+            }
+        });
+    }
 
     function playGame() {
         if (totalGuesses > 0 && !guessed) {

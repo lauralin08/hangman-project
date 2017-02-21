@@ -13,30 +13,31 @@ var PORT = process.env.PORT || 3000;
 // Generate static path from current directory and public folder
 var staticPath = path.join(__dirname, '/public');
 
-var words;
-function getRandomWord() {
-    var randomNumber = Math.floor(Math.random() * words.length);
-    return words[randomNumber];
+var words = {};
+function getRandomWord(difficulty) {
+    var levelWords = words[difficulty];
+    var randomNumber = Math.floor(Math.random() * levelWords.length);
+    return levelWords[randomNumber];
 }
 
 app.get('/words', function (req, res) {
-    if (!words) {
+    console.log('query', req.query);
+    var difficulty = req.query.difficulty;
+    if (!words[difficulty]) {
         axios.get('http://linkedin-reach.hagbpyjegb.us-west-2.elasticbeanstalk.com/words', {
             params: {
-                difficulty: 5 // Restricted words to average difficulty, add variable later
+                difficulty: difficulty
             }
         })
         .then(function(response) {
-            words = response.data.split('\n');
-            res.send(getRandomWord());
-            console.log(getRandomWord());
+            words[difficulty] = response.data.split('\n');
+            res.send(getRandomWord(difficulty));
         })
         .catch(function(error) {
             console.log(error);
         });
     } else {
-        res.send(getRandomWord());
-        console.log(getRandomWord());
+        res.send(getRandomWord(difficulty));
     }  
 });
 

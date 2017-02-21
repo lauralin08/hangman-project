@@ -16,10 +16,29 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-xs-12 col-sm-8 col-sm-offset-2">
-                    <div class="header text-center">
-                        <h1>Can you save the hanging man before it's too late?</h1>
+                    <div class="text-center">
+                        <h1>Can you guess the word to save the hanging man?</h1>
                     </div>
-                    <div type="button" class="btn btn-success btn-block btn-lg text-center play-now" id="large">Play Now!</div>
+                    <div class="row">
+                        <div class="col-xs-7 text-right">
+                            <h4>Select your difficulty level:</h4>
+                        </div>
+                        <div class="col-xs-3 col-xs-offset-1">
+                            <select class="difficulty">
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div type="button" class="btn btn-success btn-block btn-lg text-center play-now" id="playNow">Play Now!</div>
                     <div class="row">
                         <div class="col-xs-6 text-center vertical-align">
                             <div class="well lives-left left-column">
@@ -33,7 +52,7 @@
                             <div class="well hangman-container">
                                 <img class="img-responsive center-block hangman-image" src="Hangman6.png" alt="Hangman Diagram"/>
                             </div>
-                            <form action="javascript:void(0);" class="form-inline">
+                            <form action="javascript:void(0);">
                                 <label class="sr-only" for="inputGuess">User guess</label>
                                 <input type="text" class="center-block form-control text-center"
                                     id="inputGuess" placeholder="Enter your guess.">
