@@ -1,13 +1,22 @@
-html {
-    height: 100%;
-    margin: 0;
-    padding: 0;
+html,
+body {
+    background-color: #E6E6E6;
+}
+
+div {
+    font-family: 'Kreon', cursive;
+    font-size: 18px;
 }
 
 .header {
     margin-top: 40px;
     margin-bottom: 20px;
-    font-family: 'Times New Roman', Times, serif;
+    font-family: 'Permanent Marker', cursive;
+}
+
+#large {
+    font-family: 'Permanent Marker', cursive;
+    font-size: 1.5em;
 }
 
 .vertical-align {
@@ -16,6 +25,10 @@ html {
     justify-content: space-between;
     height: 380px;
     margin-top: 20px;
+}
+
+.padded {
+    padding-top: 20px;
 }
 
 .hangman-container {
@@ -36,12 +49,13 @@ html {
 }
 
 .guess-submit {
-    max-width: 100%;
+    max-width: 35%;
 }
 
 #inputGuess {
     display: inline-block;
     width: auto;
-    max-width: 100%;
+    max-width: 65%;
+    font-size: 18px;
 }
 

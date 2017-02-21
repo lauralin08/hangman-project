@@ -4,43 +4,48 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link type="text/css" rel="stylesheet" href="style.css">
+        <link href="https://fonts.googleapis.com/css?family=Kreon|Permanent+Marker" rel="stylesheet">
         <link type="text/css" rel="stylesheet" 
             href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" 
             integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
             crossorigin="anonymous">
+        <link type="text/css" rel="stylesheet" href="style.css">
         <title>Let's play Hangman!</title>
     </head>
     <body>
         <div class="container-fluid">
-            <div class="header text-center">
-                <h3>Can you save the hanging man before it's too late?</h3>
-            </div>
-            <div type="button" class="btn btn-success btn-block btn-lg text-center play-now">Play Now!</div>
             <div class="row">
-                <div class="col-xs-6 text-center vertical-align">
-                    <div class="well lives-left left-column">
+                <div class="col-xs-12 col-sm-8 col-sm-offset-2">
+                    <div class="header text-center">
+                        <h1>Can you save the hanging man before it's too late?</h1>
                     </div>
-                    <div class="well bad-guesses left-column">
+                    <div type="button" class="btn btn-success btn-block btn-lg text-center play-now" id="large">Play Now!</div>
+                    <div class="row">
+                        <div class="col-xs-6 text-center vertical-align">
+                            <div class="well lives-left left-column">
+                            </div>
+                            <div class="well bad-guesses left-column">
+                            </div>
+                            <div class="well user-progress left-column">
+                            </div>
+                        </div>
+                        <div class="col-xs-6 text-center vertical-align">
+                            <div class="well hangman-container">
+                                <img class="img-responsive center-block hangman-image" src="Hangman6.png" alt="Hangman Diagram"/>
+                            </div>
+                            <form action="javascript:void(0);" class="form-inline">
+                                <label class="sr-only" for="inputGuess">User guess</label>
+                                <input type="text" class="form-control"
+                                    id="inputGuess" placeholder="Enter a letter.">
+                                <input type="button" class="btn btn-primary guess-submit" id="inputGuess" value="Guess!" required>
+                            </form>
+                        </div>
                     </div>
-                    <div class="well user-progress left-column">
-                    </div>
-                </div>
-                <div class="col-xs-6 text-center vertical-align">
-                    <div class="well hangman-container">
-                        <img class="img-responsive center-block hangman-image" src="Hangman6.png" alt="Hangman Diagram"/>
-                    </div>
-                    <form action="javascript:void(0);" class="form-inline">
-                        <label class="sr-only" for="inputGuess">User guess</label>
-                        <input type="text" class="form-control"
-                            id="inputGuess" placeholder="Enter a letter.">
-                        <input type="button" class="btn btn-primary guess-submit" value="Guess!" required>
-                    </form>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-xs-12 text-center">
-                    <div class="well guess-result">
+                    <div class="row">
+                        <div class="col-xs-12 text-center">
+                            <div class="well guess-result">
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

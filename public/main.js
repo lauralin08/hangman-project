@@ -35,6 +35,7 @@ $(document).ready(function() {
     var userGuess;
     var match;
     var guessed;
+    var secretWord;
 
     var $userProgress = $('.user-progress');
     var $badGuessCache = $('.bad-guesses');
@@ -51,7 +52,7 @@ $(document).ready(function() {
         $userProgress.append($userGuess);
         console.log('Your guess: ' + userGuess);
 
-        var $progress = $('<div class="progress">Your progress: ' + userProgress + '</div>');
+        var $progress = $('<div class="user-progress">Your progress: ' + userProgress + '</div>');
         $userProgress.append($progress);
         console.log('Your progress: ' + userProgress);
     }
@@ -59,11 +60,11 @@ $(document).ready(function() {
     function showBadGuesses() {
         $badGuessCache.empty();
         if (badGuessCache.length) {
-            var $badGuesses = $('<div class="text-danger">Incorrectly guessed: ' + badGuessCache + '<div>');
+            var $badGuesses = $('<div class="text-danger padded">Incorrectly guessed: ' + badGuessCache + '<div>');
             $badGuessCache.append($badGuesses);
             console.log('Incorrectly guessed: ' + badGuessCache);
         } else {
-            var $none = $('<div class="text-success">No wrong guesses so far!</div>');
+            var $none = $('<div class="text-success padded">No wrong guesses so far!</div>');
             $badGuessCache.append($none);
             console.log('No wrong guesses so far!');
         }
@@ -71,7 +72,7 @@ $(document).ready(function() {
 
     function showLivesLeft() {
         $livesLeft.empty();
-        var $lives = $('<div>You have ' + totalGuesses + ' guesses left. Guess a letter!</div>');
+        var $lives = $('<div class="padded">You have ' + totalGuesses + ' guesses left. Guess a letter!</div>');
         $livesLeft.append($lives);
         console.log('You have ' + totalGuesses + ' guesses left. Guess a letter!');
     }
@@ -117,6 +118,13 @@ $(document).ready(function() {
         console.log('You have 6 guesses. Guess the following word: ' + userProgress);
     }
 
+    function noSecretWord() {
+        $livesLeft.empty();
+        var $error = $('<div class="padded">Click "Play Now" to start the game!</div>');
+        $livesLeft.append($error);
+        console.log('Click "Play Now" to start the game!');
+    }
+
     function guessAgain() {
         $guessResult.empty();
         var $invalid = $('<div class="text-danger">Invalid guess</div>');
@@ -143,16 +151,20 @@ $(document).ready(function() {
 
     function userWins() {
         $guessResult.empty();
-        var $winner = $('<div class="winner text-success">You guessed the word and saved the hanging man! Congratulations&mdash;you won! Click "Play Now" to play again.</div>');
+        var $success = $('<div class="winner text-success">You guessed the word and saved the hanging man!</div>');
+        var $winner = $('<div class="winner text-success">Congratulations&mdash;you won! Click "Play Again" to play again.</div>')
+        $guessResult.append($success);
         $guessResult.append($winner);
-        console.log('You guessed the word and saved the hanging man! Congratulations--you won! Click "Play Now" to play again.');
+        console.log('You guessed the word and saved the hanging man! Congratulations--you won! Click "Play Again" to play again.');
     }
 
     function userLoses() {
         $guessResult.empty();
-        var $loser = $('<div class="loser text-danger">Sorry, you lost! The word was "' + secretWord + '". Too bad... Click "Play Now" to try again.</div>');
+        var $sorry = $('<div class="loser text-danger">Sorry, you lost! The word was "' + secretWord + '".</div>');
+        var $loser = $('<div class="loser text-danger">Too bad... Click "Play Again" to try again.</div>')
+        $guessResult.append($sorry);
         $guessResult.append($loser);
-        console.log('Sorry, you lost! The word was ' + secretWord + '. Too bad... Click "Play Now" to try again.');
+        console.log('Sorry, you lost! The word was ' + secretWord + '. Too bad... Click "Play Again" to try again.');
     }
     
     function getSecretWord() {
@@ -166,6 +178,7 @@ $(document).ready(function() {
                 for (var i = 0; i < secretWord.length; i++) {
                     userProgress[i] = '__';
                 }
+                $('#large').html('Play Again!');
                 startGame();
             }
         });
@@ -173,7 +186,7 @@ $(document).ready(function() {
 
     var $playNow = $('.play-now');
     $playNow.on('click', function(event) {
-        getSecretWord();
+        userProgress.length = 0;
         badGuessCache.length = 0;
         for (var key in guessCache) {
             delete guessCache[key];
@@ -182,6 +195,7 @@ $(document).ready(function() {
         $guessResult.empty();
         $badGuessCache.empty();
         $userProgress.empty();
+        getSecretWord();
     });
 
     function playGame() {
@@ -230,7 +244,11 @@ $(document).ready(function() {
     });
 
     $guessSubmit.on('click', function() {
-        playGame();
+        if (secretWord) {
+            playGame();
+        } else {
+            noSecretWord();
+        }
         var $inputGuess = $('#inputGuess');
         $inputGuess.val('');
     });
