@@ -43,8 +43,7 @@ $(document).ready(function() {
     var $guessResult = $('.guess-result');
     var $guess = $('.form-control');
     var $hangman = $('.hangman-container');
-    var $letterSubmit = $('.letter-submit');
-    var $wordSubmit = $('.word-submit');
+    var $guessSubmit = $('.guess-submit');
 
     function showProgress() { 
         $userProgress.empty();
@@ -73,9 +72,9 @@ $(document).ready(function() {
 
     function showLivesLeft() {
         $livesLeft.empty();
-        var $lives = $('<div class="padded">You have ' + totalGuesses + ' guesses left. Guess a letter!</div>');
+        var $lives = $('<div class="padded">You have ' + totalGuesses + ' guesses left. Guess a letter or a word!</div>');
         $livesLeft.append($lives);
-        console.log('You have ' + totalGuesses + ' guesses left. Guess a letter!');
+        console.log('You have ' + totalGuesses + ' guesses left. Guess a letter or a word!');
     }
 
     function showHangman() {
@@ -266,30 +265,17 @@ $(document).ready(function() {
 
     $guess.keyup(function(event) {
         if (event.keyCode == '13') {
-            $letterSubmit.click();
+            $guessSubmit.click();
         }
     });
 
-    function clearInput() {
-        var $inputGuess = $('#inputGuess');
-        $inputGuess.val('');
-    }
-
-    $letterSubmit.on('click', function() {
+    $guessSubmit.on('click', function() {
         if (secretWord) {
             playGame();
         } else {
             noSecretWord();
         }
-        clearInput();
+        var $inputGuess = $('#inputGuess');
+        $inputGuess.val('');
     });
-
-    $wordSubmit.on('click', function() {
-        if (secretWord) {
-            checkWord();
-        } else {
-            noSecretWord();
-        }
-        clearInput();
-    })
 });

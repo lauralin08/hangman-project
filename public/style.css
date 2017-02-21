@@ -52,13 +52,8 @@ div {
     flex-grow: 1;
 }
 
-.guess-submit {
-    max-width: 35%;
-}
-
 #inputGuess,
-#inputLetter,
-#inputWord {
+.guess-submit {
     width: auto;
     max-width: 100%;
     font-size: 18px;
