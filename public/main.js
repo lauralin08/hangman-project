@@ -41,9 +41,10 @@ $(document).ready(function() {
     var $badGuessCache = $('.bad-guesses');
     var $livesLeft = $('.lives-left');
     var $guessResult = $('.guess-result');
-    var $guessSubmit = $('.guess-submit');
     var $guess = $('.form-control');
     var $hangman = $('.hangman-container');
+    var $letterSubmit = $('.letter-submit');
+    var $wordSubmit = $('.word-submit');
 
     function showProgress() { 
         $userProgress.empty();
@@ -131,9 +132,11 @@ $(document).ready(function() {
         $guessResult.append($invalid);
         
         $livesLeft.empty();
-        var $guessAgain = $('<div class="text-danger">Please guess again. Make sure it\'s an English letter that you haven\'t guessed yet!</div>');
+        var $guessAgain = $('<div class="text-danger">Please guess again. Make sure it\'s an English letter or word that you haven\'t guessed yet!</div>');
         $livesLeft.append($guessAgain);
-        console.log("Invalid guess. Please guess again. Make sure it's an English letter that you haven't guessed yet!");
+
+        showProgress();
+        console.log("Invalid guess. Please guess again. Make sure it's an English letter or word that you haven't guessed yet!");
     }
    
     function showResult() {
@@ -202,17 +205,15 @@ $(document).ready(function() {
         if (totalGuesses > 0 && !guessed) {
             match = false;
             setUserGuess();
-            if (guessCache[userGuess] || !LETTERS[userGuess]) {
-                guessAgain();
-                return;
-            }
-            guessCache[userGuess] = true;     
-            for (var i = 0; i < secretWord.length; i++) {
-                if (userGuess === secretWord[i]) {
-                    match = true;
-                    userProgress[i] = userGuess;
+            if (userGuess.length === 1) {
+                checkLetter();
+                if (!checkLetter()) {
+                    return guessAgain();
                 }
+            } else if (userGuess.length > 1) {
+                checkWord();
             }
+            guessCache[userGuess] = true;  
             if (!match) {
                 badGuessCache.push(userGuess);
                 totalGuesses--;
@@ -231,6 +232,32 @@ $(document).ready(function() {
             userLoses();
         }
     }
+
+    function checkLetter() {
+            if (guessCache[userGuess] || !LETTERS[userGuess]) {
+                return false;
+            }   
+            for (var i = 0; i < secretWord.length; i++) {
+                if (userGuess === secretWord[i]) {
+                    match = true;
+                    userProgress[i] = userGuess;
+                }
+            }
+            return true;
+    }
+
+    function checkWord() {
+            if (guessCache[userGuess]) {
+                return false;
+            } 
+            if (secretWord === userGuess) {
+                match = true;
+                for (var i = 0; i < userGuess.length; i++) {
+                    userProgress[i] = userGuess[i];
+                }
+            }
+            return true;
+    }
     
     function setUserGuess() {
         userGuess = $guess.val().toUpperCase();
@@ -239,17 +266,30 @@ $(document).ready(function() {
 
     $guess.keyup(function(event) {
         if (event.keyCode == '13') {
-            $guessSubmit.click();
+            $letterSubmit.click();
         }
     });
 
-    $guessSubmit.on('click', function() {
+    function clearInput() {
+        var $inputGuess = $('#inputGuess');
+        $inputGuess.val('');
+    }
+
+    $letterSubmit.on('click', function() {
         if (secretWord) {
             playGame();
         } else {
             noSecretWord();
         }
-        var $inputGuess = $('#inputGuess');
-        $inputGuess.val('');
+        clearInput();
     });
+
+    $wordSubmit.on('click', function() {
+        if (secretWord) {
+            checkWord();
+        } else {
+            noSecretWord();
+        }
+        clearInput();
+    })
 });
