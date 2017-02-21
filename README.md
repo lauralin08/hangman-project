@@ -6,14 +6,14 @@ Hangman project for LinkedIn REACH
 1. Go to the game repository [here](https://github.com/lauralin08/hangman-project "Hangman repository").
 2. Click "Clone or Download" and save the link.
 3. Open your command terminal and create a new directory.
-4. Making sure you are in your new directory, enter `git clone ` and the link, then run.
+4. Clone the repository to your local directory.
 5. Run `npm install` to install the necessary dependencies.
 6. Run `npm start` to start the local server.
 7. In your web browser, go to [localhost:3000](https://localhost:3000 "Local server").
 8. Play Hangman!
 
 
-### Running the game online
+### See an online Demo
 1. In your web browser, go to [Don't Hang the Man](https://dont-hang-the-man.herokuapp.com "Hangman game").
 2. Play Hangman!
 
@@ -25,3 +25,4 @@ This project used:
 - [axios](https://github.com/mzabriskie/axios), a promise-based HTTP client, to make API requests.
 - [jQuery](https://jquery.com/), the JavaScript library, to handle API requests and manipulate the DOM.
 - [Bootstrap](https://getbootstrap.com/getting-started/), for beginner-friendly CSS styling.
+- the LinkedIn Dictionary API to get words of varying difficulty, based on a drop-down menu.
