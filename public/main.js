@@ -1,32 +1,5 @@
 $(document).ready(function() {
-    const LETTERS = {
-        'A': true,
-        'B': true,
-        'C': true,
-        'D': true,
-        'E': true,
-        'F': true,
-        'G': true,
-        'H': true,
-        'I': true,
-        'J': true,
-        'K': true,
-        'L': true,
-        'M': true,
-        'N': true,
-        'O': true,
-        'P': true,
-        'Q': true,
-        'R': true,
-        'S': true,
-        'T': true,
-        'U': true,
-        'V': true,
-        'W': true,
-        'X': true,
-        'Y': true,
-        'Z': true
-    }
+
     var wordCache = {};
     var guessCache = {};
     var badGuessCache = [];
@@ -34,7 +7,6 @@ $(document).ready(function() {
     var totalGuesses = 6;
     var userGuess;
     var match;
-    var guessed;
     var secretWord;
 
     var $userProgress = $('.user-progress');
@@ -79,36 +51,8 @@ $(document).ready(function() {
 
     function showHangman() {
         $hangman.empty();
-        switch(totalGuesses) {
-            case 5:
-                var $hangman5 = $('<img class="img-responsive center-block hangman-image" src="Hangman5.png" alt="Hangman Diagram"/>');
-                $hangman.append($hangman5);
-                break;
-            case 4:
-                var $hangman4 = $('<img class="img-responsive center-block hangman-image" src="Hangman4.png" alt="Hangman Diagram"/>');
-                $hangman.append($hangman4);
-                break;
-            case 3:
-                var $hangman3 = $('<img class="img-responsive center-block hangman-image" src="Hangman3.png" alt="Hangman Diagram"/>');
-                $hangman.append($hangman3);
-                break;
-            case 2:
-                var $hangman2 = $('<img class="img-responsive center-block hangman-image" src="Hangman2.png" alt="Hangman Diagram"/>');
-                $hangman.append($hangman2);
-                break;
-            case 1:
-                var $hangman1 = $('<img class="img-responsive center-block hangman-image" src="Hangman1.png" alt="Hangman Diagram"/>');
-                $hangman.append($hangman1);
-                break;
-            case 0:
-                var $hangman0 = $('<img class="img-responsive center-block hangman-image" src="Hangman0.png" alt="Hangman Diagram"/>');
-                $hangman.append($hangman0);
-                break;
-            default:
-                var $hangman6 = $('<img class="img-responsive center-block hangman-image" src="Hangman6.png" alt="Hangman Diagram"/>');
-                $hangman.append($hangman6);
-                break;
-        }
+        var $hangmanimage = $('<img class="img-responsive center-block hangman-image" src="Hangman' + totalGuesses + '.png" alt="Hangman Diagram"/>');
+        $hangman.append($hangmanimage);
     }
 
     function startGame() {
@@ -177,7 +121,6 @@ $(document).ready(function() {
             delete guessCache[key];
         }
         totalGuesses = 6;
-        guessed = false;
         $guessResult.empty();
         $badGuessCache.empty();
         $userProgress.empty();
@@ -209,63 +152,77 @@ $(document).ready(function() {
     }
 
     function playGame() {
-        if (totalGuesses > 0 && !guessed) {
+        if (totalGuesses === 0) {
+            userLoses();
+        } else {
             match = false;
             setUserGuess();
-            if (userGuess.length === 1) {
-                checkLetter();
-                if (!checkLetter()) {
-                    return guessAgain();
-                }
-            } else if (userGuess.length > 1) {
-                checkWord();
-            } else if (userGuess.length === 0) {
+            
+            var updater = letterIsOK() ?updateLetterProgress
+            : wordIsOK() ?updateWordProgress
+            : null;
+
+            if (updater) { // if letter
+                updater();
+            } else {
                 return guessAgain();
             }
+
             guessCache[userGuess] = true;  
             if (!match) {
                 badGuessCache.push(userGuess);
                 totalGuesses--;
             }
-            showHangman();
-            showProgress(); 
-            showResult();
-            showLivesLeft();
-            showBadGuesses();               
-            if (userProgress.indexOf('__') === -1) {
-                guessed = true;
+            updateBoard();
+            if (isWordGuessed()) { // if word is guessed
                 userWins();
             }
         }
-        if (totalGuesses === 0 && !guessed) {
-            userLoses();
-        }
     }
 
-    function checkLetter() {
-        if (guessCache[userGuess] || !LETTERS[userGuess]) {
-            return false;
-        }   
-        for (var i = 0; i < secretWord.length; i++) {
+    function isWordGuessed() {
+        return (userProgress.indexOf('__') === -1);
+    }
+
+    function updateBoard() {
+        showHangman();
+        showProgress(); 
+        showResult();
+        showLivesLeft();
+        showBadGuesses();    
+    }
+
+    function isValidLetter(letter) {
+        const A = "A".charCodeAt();
+        const Z = "Z".charCodeAt();
+        const L = letter.charCodeAt();
+        return (L >= A && L <= Z);
+    }
+
+    function letterIsOK() {
+        return (userGuess.length === 1 && !guessCache[userGuess] && isValidLetter(userGuess));
+    }
+
+    function updateLetterProgress() {
+        for (var i = 0; i < secretWord.length; i++) { 
             if (userGuess === secretWord[i]) {
                 match = true;
                 userProgress[i] = userGuess;
             }
         }
-        return true;
     }
 
-    function checkWord() {
-        if (guessCache[userGuess]) {
-            return false;
-        } 
+    function wordIsOK() {
+        return (userGuess.length > 1 && !guessCache[userGuess]);
+    }
+
+    function updateWordProgress() {
         if (secretWord === userGuess) {
             match = true;
             for (var i = 0; i < userGuess.length; i++) {
                 userProgress[i] = userGuess[i];
             }
         }
-        return true;
     }
     
     function setUserGuess() {
