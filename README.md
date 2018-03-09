@@ -2,6 +2,12 @@
 Hangman project for LinkedIn REACH
 
 
+## UNDER MAINTENANCE
+Because the application process has ended, the dictionary API is no longer accessible and the website is currently being updated.
+
+Thanks for your patience, and check back soon!
+
+
 ### Running the game on a local server
 1. Go to the game repository [here](https://github.com/lauralin08/hangman-project "Hangman repository").
 2. Clone the repository to your chosen directory.
